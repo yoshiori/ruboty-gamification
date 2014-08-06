@@ -3,12 +3,12 @@ module Ruboty
     class Gamification < Base
       NAMESPACE = "gamification"
 
-      on( /出社/,
+      on( /出社$/,
         name: "increment",
         description: "increment score",
       )
 
-      on( /出社失敗/,
+      on( /出社失敗$/,
         name: "decrement",
         description: "decrement score",
       )
