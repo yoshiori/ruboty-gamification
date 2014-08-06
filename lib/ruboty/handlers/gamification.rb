@@ -18,13 +18,15 @@ module Ruboty
       def increment(message)
         name = message.from_name
         return unless name
-        message.reply("Login mission success!\n#{name}++")
+        message.reply("Login mission success!")
+        message.reply("#{name}++")
       end
 
       def decrement(message)
         name = message.from_name
         return unless name
-        message.reply("Login mission failed!\n#{name}--")
+        message.reply("Login mission failed!")
+        message.reply("#{name}--")
       end
     end
   end
