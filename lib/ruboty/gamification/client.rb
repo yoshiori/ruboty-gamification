@@ -28,15 +28,17 @@ module Ruboty
       end
 
       def reload(message)
+        message.reply("reload start")
+        @gamification.actions.clear
         load(:increment)
         load(:decrement)
+        message.reply("reload done")
       end
 
       private
       def load(label)
         get(labels: label).body.each do |data|
           pattern = /#{Regexp.escape(data["title"])}$/
-          next if @gamification.actions.any?{|action| action.pattern == pattern}
           @gamification.on(
             pattern,
             name: "#{label}",
