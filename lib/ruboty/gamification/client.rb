@@ -17,23 +17,28 @@ module Ruboty
 
       def increment(message)
         name = message.from_name
-        return unless name
         message.reply(reply_message(:increment ,message))
         message.reply("#{name}++")
       end
 
       def decrement(message)
         name = message.from_name
-        return unless name
         message.reply(reply_message(:decrement ,message))
         message.reply("#{name}--")
+      end
+
+      def reload(message)
+        load(:increment)
+        load(:decrement)
       end
 
       private
       def load(label)
         get(labels: label).body.each do |data|
+          pattern = /#{Regexp.escape(data["title"])}$/
+          next if @gamification.actions.any?{|action| action.pattern == pattern}
           @gamification.on(
-            /#{data["title"]}$/,
+            pattern,
             name: "#{label}",
             description: "#{label} score (https://github.com/yoshiori/ruboty-gamification/issues)",
           )

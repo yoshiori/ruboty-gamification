@@ -9,6 +9,8 @@ module Ruboty
 
       NAMESPACE = "gamification"
 
+      on /gamification reload$/, name: "reload", description: "reload issues"
+
       client = Ruboty::Gamification::Client.new(self)
       client.setup
 
@@ -24,6 +26,10 @@ module Ruboty
 
       def decrement(message)
         client.decrement(message)
+      end
+
+      def reload(message)
+        client.reload(message)
       end
     end
   end
