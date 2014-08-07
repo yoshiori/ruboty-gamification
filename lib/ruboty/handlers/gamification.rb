@@ -12,28 +12,19 @@ module Ruboty
       client = Ruboty::Gamification::Client.new(self)
       client.setup
 
+      define_method(:client) do
+        client
+      end
+
       private
 
       def increment(message)
-        name = message.from_name
-        return unless name
-        message.reply(reply_message(:increment ,message))
-        message.reply("#{name}++")
+        client.increment(message)
       end
 
       def decrement(message)
-        name = message.from_name
-        return unless name
-        message.reply(reply_message(:decrement ,message))
-        message.reply("#{name}--")
+        client.decrement(message)
       end
-
-      def reply_message(label, message)
-        if /\A@?#{Regexp.escape(robot.name)}:?\s*(.*)/ =~ message.body
-          Gamification.reply_messages[label][$1]
-        end
-      end
-
     end
   end
 end

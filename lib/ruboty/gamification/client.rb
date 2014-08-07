@@ -13,7 +13,20 @@ module Ruboty
       def setup
         load(:increment)
         load(:decrement)
-        @gamification.reply_messages = reply_messages
+      end
+
+      def increment(message)
+        name = message.from_name
+        return unless name
+        message.reply(reply_message(:increment ,message))
+        message.reply("#{name}++")
+      end
+
+      def decrement(message)
+        name = message.from_name
+        return unless name
+        message.reply(reply_message(:decrement ,message))
+        message.reply("#{name}--")
       end
 
       private
@@ -25,6 +38,12 @@ module Ruboty
             description: "#{label} score (https://github.com/yoshiori/ruboty-gamification/issues)",
           )
           reply_messages[label][data["title"]] = data["body"]
+        end
+      end
+
+      def reply_message(label, message)
+        if /\A@?#{Regexp.escape(message.robot.name)}:?\s*(.*)/ =~ message.body
+          reply_messages[label][$1]
         end
       end
 
